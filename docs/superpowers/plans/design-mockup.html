@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>跑路计算器 - 设计稿</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f0f2f5; color: #333; padding: 40px 20px; }
+  h1 { text-align: center; margin-bottom: 40px; color: #1a1a2e; }
+  .designs { max-width: 1200px; margin: 0 auto; }
+  .design-row { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; margin-bottom: 40px; }
+  .design-card { background: #fff; border-radius: 16px; padding: 30px; width: 360px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+  .design-card h2 { font-size: 18px; margin-bottom: 20px; color: #555; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+
+  /* Form styles */
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 14px; color: #666; margin-bottom: 6px; }
+  .form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 16px; transition: border-color 0.2s; }
+  .form-group input:focus { outline: none; border-color: #4f46e5; }
+
+  /* Buttons */
+  .btn-primary { width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+
+  /* Option A - Modern */
+  .option-a .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; }
+  .option-a { border-top: 4px solid #667eea; }
+
+  /* Option B - Minimal */
+  .option-b .btn-primary { background: #111; color: #fff; }
+  .option-b { border-top: 4px solid #111; }
+
+  /* Option C - Warm */
+  .option-c .btn-primary { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: #fff; }
+  .option-c { border-top: 4px solid #f5576c; }
+
+  /* Result page mockups */
+  .result-mock { text-align: center; padding: 30px; }
+  .date-display { font-size: 36px; font-weight: 700; color: #1a1a2e; margin: 10px 0; }
+  .days-display { font-size: 20px; color: #666; margin-bottom: 30px; }
+
+  /* Circular progress */
+  .circle-container { position: relative; width: 220px; height: 220px; margin: 0 auto; }
+  .circle-bg { fill: none; stroke: #e5e7eb; stroke-width: 12; }
+  .circle-progress { fill: none; stroke-width: 12; stroke-linecap: round; transform: rotate(-90deg); transform-origin: center; }
+  .circle-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+  .circle-time { font-size: 32px; font-weight: 700; }
+  .circle-label { font-size: 13px; color: #999; margin-top: 4px; }
+
+  /* Option A result */
+  .option-a .circle-progress { stroke: url(#gradA); }
+
+  /* Option B result */
+  .option-b .circle-progress { stroke: #111; }
+
+  /* Option C result */
+  .option-c .circle-progress { stroke: url(#gradC); }
+
+  .label { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 10px; }
+</style>
+</head>
+<body>
+
+<!-- SVG Defs for gradients -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="gradA" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea"/>
+      <stop offset="100%" style="stop-color:#764ba2"/>
+    </linearGradient>
+    <linearGradient id="gradC" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f093fb"/>
+      <stop offset="100%" style="stop-color:#f5576c"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<h1>跑路计算器 - 设计方案</h1>
+
+<div class="designs">
+  <h2 style="text-align:center; margin-bottom: 20px;">方案对比：表单页面</h2>
+  <div class="design-row">
+    <!-- Option A: Modern Glassmorphism -->
+    <div class="design-card option-a">
+      <h2>🎨 方案A - 现代渐变</h2>
+      <div class="form-group">
+        <label>目标存款 (¥)</label>
+        <input type="text" placeholder="500000" value="500,000">
+      </div>
+      <div class="form-group">
+        <label>已有存款 (¥)</label>
+        <input type="text" placeholder="50000" value="50,000">
+      </div>
+      <div class="form-group">
+        <label>每月存款 (¥)</label>
+        <input type="text" placeholder="10000" value="10,000">
+      </div>
+      <div class="form-group">
+        <label>下班时间</label>
+        <input type="time" value="18:00">
+      </div>
+      <button class="btn-primary">开始跑路 🏃</button>
+    </div>
+
+    <!-- Option B: Minimal Clean -->
+    <div class="design-card option-b">
+      <h2>⚫ 方案B - 极简风格</h2>
+      <div class="form-group">
+        <label>目标存款</label>
+        <input type="text" value="¥500,000">
+      </div>
+      <div class="form-group">
+        <label>已有存款</label>
+        <input type="text" value="¥50,000">
+      </div>
+      <div class="form-group">
+        <label>每月存款</label>
+        <input type="text" value="¥10,000">
+      </div>
+      <div class="form-group">
+        <label>下班时间</label>
+        <input type="time" value="18:00">
+      </div>
+      <button class="btn-primary">计算</button>
+    </div>
+
+    <!-- Option C: Warm Cute -->
+    <div class="design-card option-c">
+      <h2>🌸 方案C - 温暖活泼</h2>
+      <div class="form-group">
+        <label>💰 目标存款</label>
+        <input type="text" value="500,000">
+      </div>
+      <div class="form-group">
+        <label>🏦 已有存款</label>
+        <input type="text" value="50,000">
+      </div>
+      <div class="form-group">
+        <label>📅 每月存款</label>
+        <input type="text" value="10,000">
+      </div>
+      <div class="form-group">
+        <label>🕕 下班时间</label>
+        <input type="time" value="18:00">
+      </div>
+      <button class="btn-primary">冲！💨</button>
+    </div>
+  </div>
+
+  <h2 style="text-align:center; margin-bottom: 20px; margin-top: 40px;">方案对比：结果页面</h2>
+  <div class="design-row">
+    <!-- Result A -->
+    <div class="design-card option-a">
+      <h2>🎨 方案A - 结果页</h2>
+      <div class="result-mock">
+        <span class="label" style="background:#f0f0ff; color:#667eea;">最终跑路时间</span>
+        <div class="date-display">2028年06月</div>
+        <div class="days-display">剩余 823 天</div>
+        <div class="circle-container">
+          <svg viewBox="0 0 220 220" width="220" height="220">
+            <circle class="circle-bg" cx="110" cy="110" r="95"/>
+            <circle class="circle-progress" cx="110" cy="110" r="95" stroke-dasharray="597" stroke-dashoffset="180"/>
+          </svg>
+          <div class="circle-text">
+            <div class="circle-time">06:42:18</div>
+            <div class="circle-label">今日跑路倒计时</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Result B -->
+    <div class="design-card option-b">
+      <h2>⚫ 方案B - 结果页</h2>
+      <div class="result-mock">
+        <span class="label" style="background:#f5f5f5; color:#111;">最终跑路时间</span>
+        <div class="date-display">2028.06.25</div>
+        <div class="days-display">823 天后自由</div>
+        <div class="circle-container">
+          <svg viewBox="0 0 220 220" width="220" height="220">
+            <circle class="circle-bg" cx="110" cy="110" r="95"/>
+            <circle class="circle-progress" cx="110" cy="110" r="95" stroke-dasharray="597" stroke-dashoffset="180"/>
+          </svg>
+          <div class="circle-text">
+            <div class="circle-time">18:00:00</div>
+            <div class="circle-label">下班倒计时</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Result C -->
+    <div class="design-card option-c">
+      <h2>🌸 方案C - 结果页</h2>
+      <div class="result-mock">
+        <span class="label" style="background:#fff0f3; color:#f5576c;">🎯 目标达成日</span>
+        <div class="date-display">2028/06/25</div>
+        <div class="days-display">🔥 还剩 823 天</div>
+        <div class="circle-container">
+          <svg viewBox="0 0 220 220" width="220" height="220">
+            <circle class="circle-bg" cx="110" cy="110" r="95"/>
+            <circle class="circle-progress" cx="110" cy="110" r="95" stroke-dasharray="597" stroke-dashoffset="180"/>
+          </svg>
+          <div class="circle-text">
+            <div class="circle-time">18:00:00</div>
+            <div class="circle-label">下班倒计时 ⏰</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top: 20px; padding: 20px; background: #fff; border-radius: 12px; max-width: 600px; margin-left: auto; margin-right: auto;">
+    <h3 style="margin-bottom: 10px;">请选择一个方案</h3>
+    <p style="color:#666; font-size: 14px;">回复 A、B 或 C 选择你最喜欢的风格。也可以提出自定义需求。</p>
+  </div>
+</div>
+
+</body>
+</html>

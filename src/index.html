@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>工具箱</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧰</text></svg>">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: #333;
+}
+
+.card {
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  width: 100%;
+  max-width: 480px;
+  padding: 40px 32px;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.page-subtitle {
+  text-align: center;
+  color: #999;
+  font-size: 14px;
+  margin-bottom: 32px;
+}
+
+.tool-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tool-list li a {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: #f8f9ff;
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.tool-list li a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.25);
+  background: #f0f2ff;
+}
+
+.tool-list li a .emoji {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.tool-list li a .arrow {
+  margin-left: auto;
+  color: #ccc;
+  font-size: 20px;
+  transition: color 0.15s;
+}
+
+.tool-list li a:hover .arrow {
+  color: #667eea;
+}
+
+@media (max-width: 520px) {
+  body { padding: 12px; align-items: flex-start; padding-top: 24px; }
+  .card { padding: 28px 20px; border-radius: 20px; }
+  .page-title { font-size: 24px; }
+  .tool-list li a { padding: 14px 16px; font-size: 15px; }
+  .tool-list li a .emoji { font-size: 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1 class="page-title">工具箱</h1>
+  <p class="page-subtitle">摸鱼也要有工具 🧰</p>
+
+  <ul class="tool-list">
+    <li>
+      <a href="rush-calc.html">
+        <span class="emoji">🏃</span>
+        <span>跑路计算器</span>
+        <span class="arrow">→</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+</body>
+</html>
