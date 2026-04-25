@@ -428,11 +428,6 @@ body {
     const remaining = target - current;
     const monthsNeeded = Math.ceil(remaining / monthly);
 
-    // >= 50年（600个月）
-    if (monthsNeeded >= 600) {
-      return { months: monthsNeeded, days: Infinity, date: null, forever: true };
-    }
-
     const now = new Date();
     const targetDate = new Date(now.getFullYear(), now.getMonth() + monthsNeeded, now.getDate());
     const diffMs = targetDate.getTime() - now.getTime();
@@ -445,7 +440,6 @@ body {
     const current = parseFloat(currentInput.value) || 0;
     const target = parseFloat(targetInput.value);
     if (current >= target) return '还上啥班啊，跑路 🎉';
-    if (result.forever) return '这辈子就焊死在这了 🔩';
 
     const now = new Date();
     const offwork = offworkInput.value;
@@ -475,12 +469,26 @@ body {
     const dateStr = d.getFullYear() + '年' + String(d.getMonth() + 1).padStart(2, '0') + '月';
     resultDateEl.textContent = dateStr;
 
-    if (result.forever) {
-      resultDaysEl.innerHTML = '<span>遥遥无期</span>';
-    } else if (result.days <= 0) {
+    if (result.days <= 0) {
       resultDaysEl.innerHTML = '<span>已达成！现在就跑！🎉</span>';
     } else {
-      resultDaysEl.innerHTML = '还剩 <span>' + result.days + '</span> 天';
+      const years = Math.floor(result.months / 12);
+      let tips = '';
+      if (result.months >= 50 * 12) {
+        tips = '</br>' + years + '年？建议下次选简单模式 🔄';
+      } else if (result.months >= 40 * 12) {
+        tips = '</br>' + years + '年？半辈子都在打工了 💀';
+      } else if (result.months >= 30 * 12) {
+        tips = '</br>' + years + '年？够熬完三个本命年了 🐉';
+      } else if (result.months >= 20 * 12) {
+        tips = '</br>' + years + '年？孩子都能打酱油了 👶';
+      } else if (result.months >= 10 * 12) {
+        tips = '</br>' + years + '年？没事，头发掉完就到了 🧑‍🦲';
+      } else {
+        tips = '</br>' + years + '年，咬咬牙就过去了 💪';
+      }
+
+      resultDaysEl.innerHTML = '还剩 <span>' + result.days + '</span> 天' + tips;
     }
 
     // Start countdown timer
